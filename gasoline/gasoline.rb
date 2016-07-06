@@ -66,18 +66,18 @@ class GasStation
       puts "Start"
       i = 0
       while i <= liters
-        puts i
+        print i
         break if i == liters
         sleep 0.1
-        puts  "."
+        print  "."
         sleep 0.1
-        puts  "."
+        print  "."
         sleep 0.1
-        puts  "."
+        print  "."
         sleep 0.1
         i += 1
       end
-      puts "Finish"
+      puts "\nFinish"
     end
 
     def aviable_fuel(fuel)
