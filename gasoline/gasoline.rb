@@ -104,17 +104,3 @@ class Payment < GasStation
     puts "Thanks a lot!"
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
