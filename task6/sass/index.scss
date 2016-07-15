@@ -1,0 +1,30 @@
+.wrapper::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+footer.page-footer {
+  min-height: 50px;
+  padding: 20px;
+  background-color: #EEE;
+  margin-top: 15px;
+
+  .info {
+    float: left;
+  }
+
+  .copyright {
+    float: right;
+  }
+
+}
+
+main{
+  padding-left: 15px;
+  padding-right: 15px;
+
+  ul {
+    display: inline-block;
+  }
+}

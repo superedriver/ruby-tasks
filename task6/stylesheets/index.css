@@ -1,0 +1,32 @@
+/* line 1, ../sass/index.scss */
+.wrapper::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* line 7, ../sass/index.scss */
+footer.page-footer {
+  min-height: 50px;
+  padding: 20px;
+  background-color: #EEE;
+  margin-top: 15px;
+}
+/* line 13, ../sass/index.scss */
+footer.page-footer .info {
+  float: left;
+}
+/* line 17, ../sass/index.scss */
+footer.page-footer .copyright {
+  float: right;
+}
+
+/* line 23, ../sass/index.scss */
+main {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 27, ../sass/index.scss */
+main ul {
+  display: inline-block;
+}
