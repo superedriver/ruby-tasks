@@ -1,0 +1,148 @@
+DROP TABLE IF EXISTS projects;
+CREATE TABLE projects
+(
+  id INTEGER AUTO_INCREMENT,
+  name TEXT,
+  PRIMARY KEY(id)
+) COMMENT 'Projects table with PRIMARY KEY';
+
+
+DROP TABLE IF EXISTS tasks;
+CREATE TABLE tasks
+(
+  id INTEGER AUTO_INCREMENT,
+  name TEXT,
+  status TEXT,
+  project_id INTEGER,
+  PRIMARY KEY(id)
+) COMMENT 'Tasks table with PRIMARY KEY';
+
+
+INSERT INTO projects(name) VALUES
+  ("the first"),
+  ("the second a"),
+  ("the third"),
+  ("N-letter started project1"),
+  ("N-letter started project2"),
+  ("project N6 without task"),
+  ("Garage");
+
+INSERT INTO tasks(name, status, project_id) VALUES
+  ("task_1", "hasn't done", 1),
+  ("task_2", "done", 1),
+  ("task_2", "done", 1),
+  ("task_3", "hasn't done", 2),
+  ("task_4", "done", 2),
+  ("task_5", "almost done", 2),
+  ("task_6", "done", 3),
+  ("task_7", "None_available", 2),
+  ("task_8", "done", 4),
+  ("task_9", "almost done", 5),
+  ("task_10 without project", "hasn't done", NULL),
+  ("task_10 without project", "hasn't done", NULL),
+  ("task_11", "completed", 1),
+  ("task_12", "completed", 1),
+  ("task_13", "completed", 1),
+  ("task_14", "completed", 1),
+  ("task_15", "completed", 1),
+  ("task_16", "completed", 1),
+  ("task_17", "completed", 1),
+  ("task_18", "completed", 1),
+  ("task_19", "completed", 1),
+  ("task_20", "completed", 1),
+  ("task_21", "completed", 1),
+  ("task_22", "completed", 1),
+  ("task_23", "completed", 3),
+  ("task_24", "completed", 3),
+  ("task_25", "completed", 3),
+  ("task_26", "completed", 3),
+  ("task_27", "completed", 3),
+  ("task_28", "completed", 3),
+  ("task_29", "completed", 3),
+  ("task_30", "completed", 3),
+  ("task_31", "completed", 3),
+  ("task_32", "completed", 3),
+  ("task_33", "completed", 3),
+  ("task_34", "completed", 4),
+  ("task_35", "completed", 4),
+  ("task_36", "completed", 4),
+  ("task_37", "completed", 4),
+  ("task_38", "completed", 4),
+  ("task_38", "completed", 7),
+  ("task_38", "completed", 7),
+  ("task_38", "completed", 7),
+  ("task_39", "completed", 7),
+  ("task_39", "completed", 7),
+  ("task_39", "completed", 7),
+  ("task_39", "completed", 7),
+  ("task_40", "completed", 7),
+  ("task_40", "completed", 7),
+  ("task_41", "completed", 7);
+
+
+
+
+1) get all statuses, not repeating, alphabetically ordered
+SELECT DISTINCT status
+  FROM tasks
+  ORDER BY status;
+
+
+2) get the count of all tasks in each project, order by tasks count descending
+SELECT project_id, COUNT(*) count
+  FROM tasks
+  GROUP BY project_id
+  ORDER BY count DESC;
+
+
+3) get the count of all tasks in each project, order by projects names
+SELECT p.name AS project_name, COUNT(p.name) tasks_count
+  FROM projects p
+  INNER JOIN tasks t ON t.project_id = p.id
+  GROUP BY p.name
+  ORDER BY p.name;
+
+
+4) get the tasks for all projects having the name beginning with “N” letter
+SELECT t.name AS task_name, p.name AS project_name
+  FROM tasks t
+  INNER JOIN projects p ON p.id = t.project_id
+  WHERE p.name LIKE "N%";
+
+
+5) get the list of all projects containing the ‘a’ letter in the middle of the name, and show the tasks count near each project.
+Mention that there can exist projects without tasks and tasks with project_id=NULL
+SELECT p.name AS project_name, COUNT(t.name) tasks_count
+  FROM tasks t
+  RIGHT JOIN projects p ON p.id = t.project_id
+  WHERE p.name LIKE "%a%"
+  GROUP BY p.name;
+
+
+6) get the list of tasks with duplicate names. Order alphabetically
+SELECT * FROM tasks
+  WHERE name IN(
+    SELECT name
+      FROM tasks
+      GROUP BY name
+      HAVING COUNT(name) >= 2
+  )
+  ORDER BY name;
+
+
+7) get the list of tasks having several exact matches of both name and status, from the project ‘Garage’. Order by matches count
+SELECT t.name task_name, t.status task_status, COUNT(*) count
+  FROM projects p
+  INNER JOIN tasks t ON t.project_id = p.id
+  WHERE  p.name = "Garage"
+  GROUP BY t.name, t.status HAVING ( count >= 2 )
+  ORDER BY count;
+
+
+8) get the list of project names having more than 10 tasks in status ‘completed’. Order by project_id
+SELECT p.name project_name, COUNT(t.name) task_count
+  FROM tasks t
+  INNER JOIN projects p ON p.id = t.project_id
+  WHERE t.status = "completed"
+  GROUP BY p.id HAVING task_count > 10
+  ORDER BY p.id;
